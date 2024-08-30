@@ -74,10 +74,10 @@
         <button type="button" class="btn btn-primary btn-lg mr-4 mb-4" onclick="getUserEmail()">
             Get User Email
         </button>
-        <button type="button" class="btn btn-primary btn-lg mr-4 mb-4" onclick="getSessions()">
+        <button type="button" class="btn btn-primary btn-lg mr-4 mb-4" onclick="listSessions()">
             Get User Sessions
         </button>
-        <button type="button" class="btn btn-primary btn-lg mr-4 mb-4" onclick="getLogs()">
+        <button type="button" class="btn btn-primary btn-lg mr-4 mb-4" onclick="listLogs()">
             Get User Logs
         </button>
         <button type="button" class="btn btn-primary btn-lg mr-4 mb-4" onclick="deleteSessions()">
@@ -188,10 +188,21 @@
         </button>
     </div>
 
+    <hr class="mb-5" />
+
+    <div class="container">
+        <h2 class="mb-5">Functions</h2>
+
+        <button type="button" class="btn btn-primary btn-lg mr-4 mb-4" onclick="executeFunction()">
+            Execute Function
+        </button>
+
+    </div>
+
     <!-- Include Appwrite Web SDK before trying to create a new instance -->
 
     <!-- Fetch the latest sdk or use an existing one -->
-    <script src="https://cdn.jsdelivr.net/npm/appwrite@9.0.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.0"></script>
 
     <script>
 
@@ -203,14 +214,15 @@
         const client = new Appwrite.Client();
 
         client
-            .setEndpoint("https://cloud.appwrite.io/v1") // Set your own appwrite server endpoint here, if not sure, you can get this value from your project settings page.
-            .setProject("test"); // Your Appwrite Project UID, you can get it from your project settings page.
+            .setEndpoint("https://v16.appwrite.org/v1") // Set your own appwrite server endpoint here, if not sure, you can get this value from your project settings page.
+            .setProject("66d1853c00126ffe7a11"); // Your Appwrite Project UID, you can get it from your project settings page.
 
         // Prepare all services we are going to use
         const account = new Appwrite.Account(client);
         const storage = new Appwrite.Storage(client);
         const teams = new Appwrite.Teams(client);
         const locale = new Appwrite.Locale(client);
+        const functions = new Appwrite.Functions(client);
 
         /**
          * Please Note!
@@ -280,8 +292,8 @@
             event.preventDefault();
         }
 
-        function getSessions() {
-            let promise = account.getSessions();
+        function listSessions() {
+            let promise = account.listSessions();
 
             promise.then(
                 function (response) {
@@ -300,8 +312,8 @@
             event.preventDefault();
         }
 
-        function getLogs() {
-            let promise = account.getLogs();
+        function listLogs() {
+            let promise = account.listLogs();
 
             promise.then(
                 function (response) {
@@ -369,7 +381,7 @@
 
         function login(event) {
             account
-                .createEmailSession(
+                .createEmailPasswordSession(
                     event.target.elements["login-email"].value, // Email
                     event.target.elements["login-password"].value // Password
                 )
@@ -650,6 +662,20 @@
             );
 
             event.preventDefault();
+        }
+
+        function executeFunction() {
+            // You need to create function and deployment using server SDK or Appwrite Console before executing it. You can use pre-built appwrite function templates from Appwrite Console. (https://cloud.appwrite.io/console/project-[project-ID]/functions). Copy functionId and paste it in createExecution function.
+            let promise = functions.createExecution('functionId', '', true);
+
+            promise.then(
+                function (response) {
+                    alert("Function executed successfully!");
+                },
+                function (error) {
+                    alert("Failed to execute function.");
+                }
+            );
         }
 
       // let promise = appwrite.database.createDocument('5dac4fc8d9f0c', {
