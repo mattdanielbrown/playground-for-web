@@ -665,8 +665,8 @@
         }
 
         function executeFunction() {
-            // You need to create function and deployment using server SDK or Appwrite Console before executing it. You can use pre-built appwrite function templates from Appwrite Console. (https://cloud.appwrite.io/console/project-[project-ID]/functions). Copy functionId and paste it in createExecution function.
-            let promise = functions.createExecution('functionId', '', true);
+            // You need to create function and deployment using server SDK or Appwrite Console before executing it. You can use pre-built appwrite function templates from Appwrite Console. Copy functionId and paste it in createExecution function.
+            let promise = functions.createExecution('functionId');
 
             promise.then(
                 function (response) {
